@@ -1,111 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unban Countdown</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #000;
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: white;
-      text-align: center;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    #countdown {
-      font-size: 4rem;
-      letter-spacing: 2px;
-    }
-    #unbanned {
-      font-size: 2.5rem;
-      display: none;
-      flex-direction: column;
-      gap: 20px;
-      align-items: center;
-      animation: fadeIn 1s ease-in-out forwards;
-    }
-    .party {
-      font-size: 4rem;
-      animation: pop 1s infinite alternate;
-    }
-    #open-roblox {
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 2rem;
-      border: 2px solid #00ffcc;
-      padding: 10px 20px;
-      border-radius: 10px;
-      transition: 0.3s;
-    }
-    #open-roblox:hover {
-      background-color: #00ffcc;
-      color: #000;
-    }
-    @keyframes pop {
-      from { transform: scale(1); }
-      to { transform: scale(1.2); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Unban Countdown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-align: center;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative; /* For background effects */
+        }
+
+        /* Particle/Star background (simple example) */
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: twinkle 4s infinite ease-in-out alternate;
+            opacity: 0;
+        }
+
+        @keyframes twinkle {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        #countdown-container {
+            position: relative;
+            z-index: 10; /* Ensure it's above particles */
+        }
+
+        #countdown {
+            font-size: 6rem; /* Made bigger */
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.7); /* Glow effect */
+            transition: font-size 0.5s ease-in-out; /* Smooth transition for size change */
+        }
+
+        #motivational-text {
+            font-size: 1.8rem; /* Size for motivational text */
+            margin-top: 25px;
+            color: #00ffcc; /* Cyan color */
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.5);
+            min-height: 50px; /* Prevent jump when text appears */
+        }
+
+        #unbanned {
+            font-size: 2.8rem; /* Made bigger */
+            display: none;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            animation: fadeIn 1.5s ease-in-out forwards;
+            color: #00ffcc;
+            text-shadow: 0 0 20px #00ffcc;
+        }
+
+        .party {
+            font-size: 5rem; /* Made bigger */
+            animation: pop 1s infinite alternate, glow 1.5s infinite alternate; /* Added glow */
+        }
+
+        #open-roblox {
+            color: #00ffcc;
+            text-decoration: none;
+            font-size: 2.2rem; /* Made bigger */
+            border: 3px solid #00ffcc;
+            padding: 15px 30px;
+            border-radius: 12px;
+            transition: 0.4s ease-in-out;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.5);
+            background-color: rgba(0, 255, 204, 0.1);
+        }
+
+        #open-roblox:hover {
+            background-color: #00ffcc;
+            color: #000;
+            box-shadow: 0 0 25px #00ffcc;
+            transform: translateY(-5px); /* Lift effect */
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.15); } /* Slightly more pronounced */
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px #00ffcc; }
+            100% { text-shadow: 0 0 30px #00ffcc, 0 0 40px #00ffcc; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Basic particle animation (stars) */
+        @keyframes moveStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(100vh); }
+        }
+    </style>
 </head>
 <body>
 
-  <div id="countdown"></div>
+    <div id="countdown-container">
+        <div id="countdown"></div>
+        <div id="motivational-text"></div>
+    </div>
 
-  <div id="unbanned">
-    <div class="party">🎉🎉🎉</div>
-    <div>You're Unbanned!</div>
-    <a id="open-roblox" href="https://www.roblox.com/" target="_blank">Open Roblox 🚀</a>
-    <div class="party">🎉🎉🎉</div>
-  </div>
+    <div id="unbanned">
+        <div class="party">🎉🎉🎉</div>
+        <div>**You're Unbanned! Go Get 'Em!**</div>
+        <a id="open-roblox" href="https://www.roblox.com/" target="_blank">Open Roblox 🚀</a>
+        <div class="party">🎉🎉🎉</div>
+    </div>
 
-  <script>
-    const countdownEl = document.getElementById('countdown');
-    const unbannedEl = document.getElementById('unbanned');
+    <script>
+        const countdownEl = document.getElementById('countdown');
+        const unbannedEl = document.getElementById('unbanned');
+        const motivationalTextEl = document.getElementById('motivational-text');
+        const bodyEl = document.body;
 
-    const target = new Date('2025-05-26T17:59:00+05:30').getTime();
+        // Set your target unban date and time here
+        const target = new Date('2025-05-26T17:59:00+05:30').getTime();
 
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = target - now;
+        // Create some stars for a subtle background effect
+        function createStars(numStars) {
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.width = `${Math.random() * 3 + 1}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                bodyEl.appendChild(star);
+            }
+        }
+        createStars(70); // Adjust number of stars
 
-      if (distance <= 0) {
-        countdownEl.style.display = "none";
-        unbannedEl.style.display = "flex";
-        return;
-      }
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = target - now;
 
-      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((distance % (1000 * 60)) / 1000);
+            if (distance <= 0) {
+                countdownEl.style.display = "none";
+                motivationalTextEl.style.display = "none";
+                unbannedEl.style.display = "flex";
+                clearInterval(interval);
+                return;
+            }
 
-      const timeStr = 
-        (d > 0 ? d + ":" : "") +
-        String(h).padStart(2, '0') + ":" +
-        String(m).padStart(2, '0') + ":" +
-        String(s).padStart(2, '0');
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdownEl.textContent = timeStr;
-    };
+            let timeStr = "";
+            let motivationalText = "";
 
-    updateCountdown();
-    const interval = setInterval(() => {
-      updateCountdown();
-      if (new Date().getTime() >= target) {
-        clearInterval(interval);
-      }
-    }, 1000);
-  </script>
+            if (d > 0) {
+                timeStr = `${d}d ${h}h ${m}m ${s}s`;
+                motivationalText = "Stay strong, the wait makes the victory sweeter!";
+            } else if (h > 0) {
+                timeStr = `${h}h ${m}m ${s}s`;
+                motivationalText = "The final countdown begins! Prepare your strategy.";
+            } else if (m > 0) {
+                timeStr = `${m}m ${s}s`;
+                motivationalText = `You can snipe people in approximately ${m} minutes!`;
+            } else {
+                timeStr = `${s}s`;
+                motivationalText = `**Incoming! ${s} seconds until freedom!**`;
+                if (s <= 5) {
+                    countdownEl.style.fontSize = "8rem"; // Make very big in last 5 seconds
+                    motivationalText = `**3... 2... 1... GO!**`; // Urgent message
+                } else {
+                     countdownEl.style.fontSize = "6rem"; // Reset if it goes back up (e.g., during testing)
+                }
+            }
+
+            countdownEl.textContent = timeStr;
+            motivationalTextEl.innerHTML = motivationalText; // Use innerHTML for bolding
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+    </script>
 </body>
 </html>
