@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unban Countdown</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #000;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      text-align: center;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #countdown {
+      font-size: 4rem;
+      letter-spacing: 2px;
+    }
+    #unbanned {
+      font-size: 2.5rem;
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+    .party {
+      font-size: 4rem;
+      animation: pop 1s infinite alternate;
+    }
+    #open-roblox {
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 2rem;
+      border: 2px solid #00ffcc;
+      padding: 10px 20px;
+      border-radius: 10px;
+      transition: 0.3s;
+    }
+    #open-roblox:hover {
+      background-color: #00ffcc;
+      color: #000;
+    }
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.2); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="countdown"></div>
+
+  <div id="unbanned">
+    <div class="party">🎉🎉🎉</div>
+    <div>You're Unbanned!</div>
+    <a id="open-roblox" href="https://www.roblox.com/" target="_blank">Open Roblox 🚀</a>
+    <div class="party">🎉🎉🎉</div>
+  </div>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const unbannedEl = document.getElementById('unbanned');
+
+    const target = new Date('2025-05-26T17:59:00+05:30').getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const distance = target - now;
+
+      if (distance <= 0) {
+        countdownEl.style.display = "none";
+        unbannedEl.style.display = "flex";
+        return;
+      }
+
+      const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const timeStr = 
+        (d > 0 ? d + ":" : "") +
+        String(h).padStart(2, '0') + ":" +
+        String(m).padStart(2, '0') + ":" +
+        String(s).padStart(2, '0');
+
+      countdownEl.textContent = timeStr;
+    };
+
+    updateCountdown();
+    const interval = setInterval(() => {
+      updateCountdown();
+      if (new Date().getTime() >= target) {
+        clearInterval(interval);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
